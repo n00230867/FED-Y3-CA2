@@ -39,7 +39,19 @@ export default function Navbar() {
                         </ul>
                     </NavigationMenuContent>
                 </NavigationMenuItem>
-
+                {/* PATIENTS MENU */}
+                <NavigationMenuItem className="hidden md:block">
+                    <NavigationMenuTrigger>Patients</NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                        <ul className="grid w-[200px] gap-4">
+                            <li>
+                                <NavigationMenuLink asChild>
+                                    <Link to="/patients">All</Link>
+                                </NavigationMenuLink>
+                </li>
+                        </ul>
+                    </NavigationMenuContent>
+</NavigationMenuItem>
             </NavigationMenuList>
         </NavigationMenu>
     );

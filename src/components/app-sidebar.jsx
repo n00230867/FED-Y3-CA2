@@ -44,8 +44,8 @@ const data = {
       icon: IconConfetti,
     },
     {
-      title: "Stages",
-      url: "#",
+      title: "Patients",
+      url: "/patients",
       icon: IconTheater,
     },
     {

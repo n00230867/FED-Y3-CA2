@@ -9,10 +9,17 @@ import { SiteHeader } from "@/components/site-header";
 import Home from "@/pages/Home";
 import ProtectedRoute from "@/pages/ProtectedRoute";
 
+// Doctors
 import DoctorsIndex from "@/pages/doctors/Index";
 import DoctorsShow from "@/pages/doctors/Show";
 import DoctorsCreate from "@/pages/doctors/Create";
 import DoctorsEdit from "@/pages/doctors/Edit";
+
+// Patients
+import PatientsIndex from "@/pages/patients/PatientsIndex";
+import PatientsShow from "@/pages/patients/PatientsShow";
+import PatientsCreate from "@/pages/patients/PatientsCreate";
+import PatientsEdit from "@/pages/patients/PatientsEdit";
 
 import FormExamples from "@/pages/examples/Forms";
 
@@ -35,19 +42,29 @@ export default function App() {
                 <div className="flex flex-col gap-2 py-4 md:gap-2 md:py-6 mx-6">
 
                   <Routes>
+
+                    {/* Public Routes */}
                     <Route path="/" element={<Home />} />
-
-                    {/* PUBLIC ROUTE FOR LIST */}
                     <Route path="/doctors" element={<DoctorsIndex />} />
+                    <Route path="/patients" element={<PatientsIndex />} />
 
-                    {/* PROTECTED ROUTES */}
-                    <Route path="/" element={<ProtectedRoute />}>
+                    {/* Protected Routes */}
+                    <Route element={<ProtectedRoute />}>
+
+                      {/* Doctors */}
                       <Route path="/doctors/:id" element={<DoctorsShow />} />
                       <Route path="/doctors/:id/edit" element={<DoctorsEdit />} />
                       <Route path="/doctors/create" element={<DoctorsCreate />} />
+
+                      {/* Patients */}
+                      <Route path="/patients/:id" element={<PatientsShow />} />
+                      <Route path="/patients/:id/edit" element={<PatientsEdit />} />
+                      <Route path="/patients/create" element={<PatientsCreate />} />
+
                     </Route>
 
                     <Route path="/forms" element={<FormExamples />} />
+
                   </Routes>
 
                 </div>
