@@ -54,8 +54,8 @@ const data = {
       icon: IconMicrophone2,
     },
     {
-      title: "Shows",
-      url: "#",
+      title: "Diagnoses",
+      url: "/diagnoses",
       icon: IconMusic,
     },
   ],

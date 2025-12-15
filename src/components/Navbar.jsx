@@ -48,10 +48,24 @@ export default function Navbar() {
                                 <NavigationMenuLink asChild>
                                     <Link to="/patients">All</Link>
                                 </NavigationMenuLink>
-                </li>
+                            </li>
                         </ul>
                     </NavigationMenuContent>
-</NavigationMenuItem>
+                </NavigationMenuItem>
+
+                {/* DIAGNOSES MENU */}
+                <NavigationMenuItem className="hidden md:block">
+                    <NavigationMenuTrigger>Diagnoses</NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                        <ul className="grid w-[200px] gap-4">
+                            <li>
+                                <NavigationMenuLink asChild>
+                                    <Link to="/diagnoses">All</Link>
+                                </NavigationMenuLink>
+                            </li>
+                        </ul>
+                    </NavigationMenuContent>
+                </NavigationMenuItem>
             </NavigationMenuList>
         </NavigationMenu>
     );
