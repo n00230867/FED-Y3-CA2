@@ -9,17 +9,14 @@ import { useAuth } from "@/hooks/useAuth";
 
 // Convert dd/mm/yyyy or yyyy-mm-dd → yyyy-mm-dd
 function normalizeDate(value) {
-  // If user types dd/mm/yyyy
     if (value.includes("/")) {
         const [day, month, year] = value.split("/");
-        return `${year}-${month}-${day}`; // Convert to yyyy-mm-dd (string)
+        return `${year}-${month}-${day}`;
+    }
+    return value;
     }
 
-  // If already yyyy-mm-dd
-    return value;
-}
-
-export default function PatientsCreate() {
+    export default function PatientsCreate() {
     const navigate = useNavigate();
     const { token } = useAuth();
 
@@ -33,77 +30,101 @@ export default function PatientsCreate() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-    const formattedDate = normalizeDate(date_of_birth);
+        const formattedDate = normalizeDate(date_of_birth);
 
-    const data = {
+        const data = {
         first_name,
         last_name,
         email,
         phone,
         address,
-        date_of_birth: formattedDate, // MUST be a string yyyy-mm-dd
-    };
+        date_of_birth: formattedDate,
+        };
 
-    try {
-        const response = await axios.post("/patients", data, {
+        try {
+        await axios.post("/patients", data, {
             headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
             },
         });
 
         toast.success("Patient created successfully!");
         navigate("/patients");
-
-    } catch (err) {
+        } catch (err) {
         console.log("Patient create error:", err.response?.data);
         toast.error("Validation failed: " + JSON.stringify(err.response?.data));
-    }
-};
+        }
+    };
 
     return (
         <>
-            <h1 className="text-2xl font-bold mb-4">Create Patient</h1>
+        <h1 className="text-2xl font-bold mb-4">Create Patient</h1>
 
-            <form onSubmit={handleSubmit} className="space-y-4 max-w-md">
+        <form onSubmit={handleSubmit} className="space-y-4 max-w-md">
 
             <div>
-                <Label>First Name</Label>
-                <Input value={first_name} onChange={(e) => setFirstName(e.target.value)} required />
+            <Label>First Name</Label>
+            <Input
+                required
+                value={first_name}
+                onChange={(e) => setFirstName(e.target.value)}
+            />
             </div>
 
             <div>
-                <Label>Last Name</Label>
-                <Input value={last_name} onChange={(e) => setLastName(e.target.value)} required />
+            <Label>Last Name</Label>
+            <Input
+                required
+                value={last_name}
+                onChange={(e) => setLastName(e.target.value)}
+            />
             </div>
 
             <div>
-                <Label>Email</Label>
-                <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+            <Label>Email</Label>
+            <Input
+                required
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+            />
             </div>
 
             <div>
-                <Label>Phone</Label>
-                <Input value={phone} onChange={(e) => setPhone(e.target.value)} required />
+            <Label>Phone</Label>
+            <Input
+                required
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+            />
             </div>
 
             <div>
             <Label>Date of Birth</Label>
             <Input
+                required
                 type="text"
                 placeholder="dd/mm/yyyy or yyyy-mm-dd"
                 value={date_of_birth}
                 onChange={(e) => setDateOfBirth(e.target.value)}
-                required
             />
             </div>
 
             <div>
-                <Label>Address</Label>
-                <Input value={address} onChange={(e) => setAddress(e.target.value)} required />
+            <Label>Address</Label>
+            <Input
+                required
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+            />
             </div>
 
-            <Button type="submit" className="w-full">Create Patient</Button>
+            {/* ✅ CREATE BUTTON ADDED HERE */}
+            <Button type="submit" className="mt-4">
+            Create Patient
+            </Button>
+
         </form>
         </>
     );

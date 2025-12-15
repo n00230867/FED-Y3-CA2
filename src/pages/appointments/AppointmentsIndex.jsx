@@ -2,20 +2,22 @@ import { useEffect, useState } from "react";
 import axios from "@/config/api";
 import { Link, useNavigate } from "react-router";
 import { Button } from "@/components/ui/button";
-import { useAuth } from "@/hooks/useAuth";
 import { Eye, Pencil } from "lucide-react";
 import DeleteBtn from "@/components/DeleteBtn";
+import { useAuth } from "@/hooks/useAuth";
+import { toast } from "sonner";
 
 import {
   Table,
   TableBody,
+  TableCaption,
+  TableCell,
   TableHead,
   TableHeader,
   TableRow,
-  TableCell,
-  TableCaption,
 } from "@/components/ui/table";
 
+// ✅ Convert timestamp → dd/mm/yyyy just like PatientsIndex
 function formatDate(timestamp) {
   if (!timestamp) return "";
 
@@ -32,60 +34,58 @@ function formatDate(timestamp) {
   return `${day}/${month}/${year}`;
 }
 
-export default function PatientsIndex() {
-  const [patients, setPatients] = useState([]);
+export default function AppointmentsIndex() {
+  const [appointments, setAppointments] = useState([]);
   const navigate = useNavigate();
   const { token } = useAuth();
 
   useEffect(() => {
-    const fetchPatients = async () => {
+    const fetchAppointments = async () => {
       try {
-        const response = await axios.get("/patients");
-        setPatients(response.data);
+        const response = await axios.get("/appointments");
+        setAppointments(response.data);
       } catch (err) {
-        console.log(err);
+        console.error(err);
+        toast.error("Failed to fetch appointments");
       }
     };
 
-    fetchPatients();
+    fetchAppointments();
   }, []);
 
   const onDeleteCallback = (id) => {
-    setPatients(patients.filter((p) => p.id !== id));
+    toast.success("Appointment deleted successfully");
+    setAppointments((prev) => prev.filter((item) => item.id !== id));
   };
 
   return (
     <>
       {token && (
         <Button asChild variant="outline" className="mb-4 mr-auto block">
-          <Link to="/patients/create">Create Patient</Link>
+          <Link to="/appointments/create">Create New Appointment</Link>
         </Button>
       )}
 
       <Table>
-        <TableCaption>List of patients.</TableCaption>
+        <TableCaption>List of Appointments</TableCaption>
 
         <TableHeader>
           <TableRow>
-            <TableHead>First Name</TableHead>
-            <TableHead>Last Name</TableHead>
-            <TableHead>Email</TableHead>
-            <TableHead>Phone</TableHead>
-            <TableHead>Date of Birth</TableHead>
-            {token && <TableHead>Actions</TableHead>}
+            <TableHead>Date</TableHead>
+            <TableHead>Doctor ID</TableHead>
+            <TableHead>Patient ID</TableHead>
+            {token && <TableHead></TableHead>}
           </TableRow>
         </TableHeader>
 
         <TableBody>
-          {patients.map((patient) => (
-            <TableRow key={patient.id}>
-              <TableCell>{patient.first_name}</TableCell>
-              <TableCell>{patient.last_name}</TableCell>
-              <TableCell>{patient.email}</TableCell>
-              <TableCell>{patient.phone}</TableCell>
+          {appointments.map((appt) => (
+            <TableRow key={appt.id}>
+              {/* ✅ Date formatted nicely */}
+              <TableCell>{formatDate(appt.appointment_date)}</TableCell>
 
-              {/* Format date as dd/mm/yyyy */}
-              <TableCell>{formatDate(patient.date_of_birth)}</TableCell>
+              <TableCell>{appt.doctor_id}</TableCell>
+              <TableCell>{appt.patient_id}</TableCell>
 
               {token && (
                 <TableCell>
@@ -93,7 +93,7 @@ export default function PatientsIndex() {
                     <Button
                       variant="outline"
                       size="icon"
-                      onClick={() => navigate(`/patients/${patient.id}`)}
+                      onClick={() => navigate(`/appointments/${appt.id}`)}
                     >
                       <Eye />
                     </Button>
@@ -101,16 +101,14 @@ export default function PatientsIndex() {
                     <Button
                       variant="outline"
                       size="icon"
-                      onClick={() =>
-                        navigate(`/patients/${patient.id}/edit`)
-                      }
+                      onClick={() => navigate(`/appointments/${appt.id}/edit`)}
                     >
                       <Pencil />
                     </Button>
 
                     <DeleteBtn
-                      resource="patients"
-                      id={patient.id}
+                      resource="appointments"
+                      id={appt.id}
                       onDeleteCallback={onDeleteCallback}
                     />
                   </div>

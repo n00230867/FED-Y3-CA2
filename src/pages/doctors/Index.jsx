@@ -26,13 +26,8 @@ export default function Index() {
 
   useEffect(() => {
     const fetchDoctors = async () => {
-      const options = {
-        method: "GET",
-        url: "https://ca2-med-api.vercel.app/doctors",
-      };
-
       try {
-        let response = await axios.request(options);
+        const response = await axios.get("/doctors");
         setDoctors(response.data);
       } catch (err) {
         console.log(err);

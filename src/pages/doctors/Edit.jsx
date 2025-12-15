@@ -5,10 +5,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function Edit() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { token } = useAuth();
 
   const [first_name, setFirstName] = useState("");
   const [last_name, setLastName] = useState("");
@@ -19,9 +21,9 @@ export default function Edit() {
   useEffect(() => {
     const fetchDoctor = async () => {
       try {
-        const response = await axios.get(
-          `https://ca2-med-api.vercel.app/doctors/${id}`
-        );
+        const response = await axios.get(`/doctors/${id}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
 
         setFirstName(response.data.first_name);
         setLastName(response.data.last_name);
@@ -35,7 +37,7 @@ export default function Edit() {
     };
 
     fetchDoctor();
-  }, [id]);
+  }, [id, token]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -49,7 +51,9 @@ export default function Edit() {
     };
 
     try {
-      await axios.patch(`https://ca2-med-api.vercel.app/doctors/${id}`, data);
+      await axios.patch(`/doctors/${id}`, data, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
       toast.success("Doctor updated successfully!");
       navigate(`/doctors/${id}`);

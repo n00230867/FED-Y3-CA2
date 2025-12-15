@@ -37,16 +37,12 @@ export default function Create() {
     };
 
     try {
-      const response = await axios.post(
-        "https://ca2-med-api.vercel.app/doctors",
-        data,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await axios.post("/doctors", data, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       toast.success("Doctor created successfully!");
       navigate("/doctors");
