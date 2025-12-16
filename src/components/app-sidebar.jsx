@@ -1,13 +1,14 @@
 import * as React from "react";
 import {
-  IconConfetti,
-  IconTheater,
-  IconDashboard,
-  IconMicrophone2,
-  IconInnerShadowTop,
-  IconMusic,
-  IconListCheck,
-} from "@tabler/icons-react";
+  LayoutDashboard,
+  Stethoscope,
+  Users,
+  Calendar,
+  ClipboardList,
+  Pill,
+  ListCheck,
+  Hospital,
+} from "lucide-react";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
 import { useLocation } from "react-router";
@@ -36,39 +37,39 @@ const data = {
     {
       title: "Dashboard",
       url: "/",
-      icon: IconDashboard,
+      icon: LayoutDashboard,
     },
     {
       title: "Doctors",
       url: "/doctors",
-      icon: IconConfetti,
+      icon: Stethoscope,
     },
     {
       title: "Patients",
       url: "/patients",
-      icon: IconTheater,
+      icon: Users,
     },
     {
       title: "Appointments",
       url: "/appointments",
-      icon: IconMicrophone2,
+      icon: Calendar,
     },
     {
       title: "Diagnoses",
       url: "/diagnoses",
-      icon: IconMusic,
+      icon: ClipboardList,
     },
     {
       title: "Prescriptions",
       url: "/prescriptions",
-      icon: IconMusic,
+      icon: Pill,
     },
   ],
   examples: [
     {
       name: "Forms & Validation",
       url: "/forms",
-      icon: IconListCheck,
+      icon: ListCheck,
     },
   ],
 };
@@ -105,8 +106,8 @@ export function AppSidebar({ ...props }) {
                 className="data-[slot=sidebar-menu-button]:!p-1.5"
               >
                 <a href="#">
-                  <IconInnerShadowTop className="!size-5" />
-                  <span className="text-base font-semibold">Acme Inc.</span>
+                  <Hospital className="!size-5" />
+                  <span className="text-base font-semibold">Medical Clinic</span>
                 </a>
               </SidebarMenuButton>
             </SidebarMenuItem>

@@ -42,15 +42,20 @@ export default function PrescriptionsIndex() {
   useEffect(() => {
     const fetchPrescriptions = async () => {
       try {
-        const response = await axios.get("/prescriptions");
+        const response = await axios.get("/prescriptions", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setPrescriptions(response.data);
       } catch (err) {
-        console.log(err);
+        console.error(err);
+        toast.error("Failed to fetch prescriptions");
       }
     };
 
     fetchPrescriptions();
-  }, [location.key]);
+  }, [location.key, token]);
 
   const onDeleteCallback = (id) => {
     toast.success("Prescription deleted successfully");
@@ -62,9 +67,11 @@ export default function PrescriptionsIndex() {
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-2xl font-bold">Prescriptions</h1>
 
-        <Button asChild>
-          <Link to="/prescriptions/create">Create Prescription</Link>
-        </Button>
+        <div className="flex gap-2">
+          <Button asChild variant="outline">
+            <Link to="/prescriptions/create">Quick Create</Link>
+          </Button>
+        </div>
       </div>
 
       <Table>
