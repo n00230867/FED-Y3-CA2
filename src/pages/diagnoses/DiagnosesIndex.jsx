@@ -41,7 +41,11 @@ export default function DiagnosesIndex() {
   useEffect(() => {
     const fetchDiagnoses = async () => {
       try {
-        const response = await axios.get("/diagnoses");
+        const response = await axios.get("/diagnoses", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setDiagnoses(response.data);
       } catch (err) {
         console.error(err);
@@ -50,7 +54,7 @@ export default function DiagnosesIndex() {
     };
 
     fetchDiagnoses();
-  }, []);
+  }, [token]);
 
   const onDeleteCallback = (id) => {
     toast.success("Diagnosis deleted successfully");

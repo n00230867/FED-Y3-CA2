@@ -7,6 +7,7 @@ import { AppSidebar } from "@/components/app-sidebar";
 import { SiteHeader } from "@/components/site-header";
 
 import Home from "@/pages/Home";
+import Register from "@/pages/Register";
 import ProtectedRoute from "@/pages/ProtectedRoute";
 
 // Doctors
@@ -63,6 +64,7 @@ export default function App() {
 
                     {/* Public Routes */}
                     <Route path="/" element={<Home />} />
+                    <Route path="/register" element={<Register />} />
                     <Route path="/doctors" element={<DoctorsIndex />} />
                     <Route path="/patients" element={<PatientsIndex />} />
 

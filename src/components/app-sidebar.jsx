@@ -67,6 +67,11 @@ const data = {
   ],
   examples: [
     {
+      name: "Register",
+      url: "/register",
+      icon: ListCheck,
+    },
+    {
       name: "Forms & Validation",
       url: "/forms",
       icon: ListCheck,
