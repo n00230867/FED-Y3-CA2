@@ -66,6 +66,20 @@ export default function Navbar() {
                         </ul>
                     </NavigationMenuContent>
                 </NavigationMenuItem>
+
+                {/* PRESCRIPTIONS MENU */}
+                <NavigationMenuItem className="hidden md:block">
+                    <NavigationMenuTrigger>Prescriptions</NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                        <ul className="grid w-[200px] gap-4">
+                            <li>
+                                <NavigationMenuLink asChild>
+                                    <Link to="/prescriptions">All</Link>
+                                </NavigationMenuLink>
+                            </li>
+                        </ul>
+                    </NavigationMenuContent>
+                </NavigationMenuItem>
             </NavigationMenuList>
         </NavigationMenu>
     );

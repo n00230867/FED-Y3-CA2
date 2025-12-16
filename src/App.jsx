@@ -33,6 +33,12 @@ import DiagnosesCreate from "@/pages/diagnoses/DiagnosesCreate";
 import DiagnosesShow from "@/pages/diagnoses/DiagnosesShow";
 import DiagnosesEdit from "@/pages/diagnoses/DiagnosesEdit";
 
+// Prescriptions
+import PrescriptionsIndex from "@/pages/prescriptions/PrescriptionsIndex";
+import PrescriptionsCreate from "@/pages/prescriptions/PrescriptionsCreate";
+import PrescriptionsShow from "@/pages/prescriptions/PrescriptionsShow";
+import PrescriptionsEdit from "@/pages/prescriptions/PrescriptionsEdit";
+
 import FormExamples from "@/pages/examples/Forms";
 
 export default function App() {
@@ -84,6 +90,12 @@ export default function App() {
                       <Route path="/diagnoses/create" element={<DiagnosesCreate />} />
                       <Route path="/diagnoses/:id/edit" element={<DiagnosesEdit />} />
                       <Route path="/diagnoses/:id" element={<DiagnosesShow />} />
+
+                      {/* Prescription */}
+                      <Route path="/prescriptions" element={<PrescriptionsIndex />} />
+                      <Route path="/prescriptions/create" element={<PrescriptionsCreate />} />
+                      <Route path="/prescriptions/:id/edit" element={<PrescriptionsEdit />} />
+                      <Route path="/prescriptions/:id" element={<PrescriptionsShow />} />
 
                     </Route>
 

@@ -58,6 +58,11 @@ const data = {
       url: "/diagnoses",
       icon: IconMusic,
     },
+    {
+      title: "Prescriptions",
+      url: "/prescriptions",
+      icon: IconMusic,
+    },
   ],
   examples: [
     {
