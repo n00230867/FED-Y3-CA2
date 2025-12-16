@@ -147,34 +147,34 @@ export default function AppointmentsShow() {
         </CardHeader>
 
         <CardContent>
-          <div className="grid gap-4 md:grid-cols-2">
-            <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/50">
-              <IconCalendar className="h-5 w-5 text-muted-foreground" />
+          <div className="grid gap-6 md:grid-cols-2">
+            <div className="flex items-center gap-4 p-5 rounded-lg bg-muted/50">
+              <IconCalendar className="h-6 w-6 text-muted-foreground" />
               <div>
-                <p className="text-sm text-muted-foreground">Date</p>
-                <p className="font-medium">{formatDate(appointment.appointment_date)}</p>
+                <p className="text-sm text-muted-foreground mb-1">Date</p>
+                <p className="font-semibold text-lg">{formatDate(appointment.appointment_date)}</p>
               </div>
             </div>
-            <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/50">
-              <IconClock className="h-5 w-5 text-muted-foreground" />
+            <div className="flex items-center gap-4 p-5 rounded-lg bg-muted/50">
+              <IconClock className="h-6 w-6 text-muted-foreground" />
               <div>
-                <p className="text-sm text-muted-foreground">Time</p>
-                <p className="font-medium">{formatTime(appointment.appointment_date)}</p>
+                <p className="text-sm text-muted-foreground mb-1">Time</p>
+                <p className="font-semibold text-lg">{formatTime(appointment.appointment_date)}</p>
               </div>
             </div>
             {appointment.status && (
-              <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/50">
+              <div className="flex items-center gap-4 p-5 rounded-lg bg-muted/50">
                 <div>
-                  <p className="text-sm text-muted-foreground">Status</p>
-                  <Badge variant="secondary" className="mt-1">{appointment.status}</Badge>
+                  <p className="text-sm text-muted-foreground mb-2">Status</p>
+                  <Badge variant="secondary" className="text-sm px-3 py-1">{appointment.status}</Badge>
                 </div>
               </div>
             )}
             {appointment.reason && (
-              <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/50 md:col-span-2">
-                <div>
-                  <p className="text-sm text-muted-foreground">Reason</p>
-                  <p className="font-medium">{appointment.reason}</p>
+              <div className="flex items-center gap-4 p-5 rounded-lg bg-muted/50 md:col-span-2">
+                <div className="w-full">
+                  <p className="text-sm text-muted-foreground mb-2">Reason</p>
+                  <p className="font-medium text-base">{appointment.reason}</p>
                 </div>
               </div>
             )}
@@ -187,74 +187,91 @@ export default function AppointmentsShow() {
         {/* Patient Information */}
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <IconUser className="h-5 w-5 text-blue-500" />
-              Patient
-            </CardTitle>
+            <div className="flex items-center gap-3">
+              <div className="h-10 w-10 rounded-full bg-blue-500 flex items-center justify-center">
+                <IconUser className="h-5 w-5 text-white" />
+              </div>
+              <div>
+                <CardTitle>Patient Information</CardTitle>
+                <CardDescription>Associated patient details</CardDescription>
+              </div>
+            </div>
           </CardHeader>
-          <CardContent className="space-y-3">
-            <div>
-              <p className="font-semibold text-lg">
-                {patient.first_name} {patient.last_name}
-              </p>
-              <p className="text-sm text-muted-foreground">ID: {patient.id}</p>
-            </div>
-            <div className="space-y-2 text-sm">
-              <div className="flex items-center gap-2">
-                <IconMail className="h-4 w-4 text-muted-foreground" />
-                {patient.email}
+          <CardContent>
+            <div className="space-y-4">
+              <div>
+                <p className="text-sm text-muted-foreground mb-1">Name</p>
+                <p className="font-semibold text-lg">
+                  {patient.first_name} {patient.last_name}
+                </p>
               </div>
-              <div className="flex items-center gap-2">
-                <IconPhone className="h-4 w-4 text-muted-foreground" />
-                {patient.phone}
+
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 text-sm">
+                  <IconMail className="h-4 w-4 text-muted-foreground" />
+                  <span>{patient.email}</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm">
+                  <IconPhone className="h-4 w-4 text-muted-foreground" />
+                  <span>{patient.phone}</span>
+                </div>
               </div>
+
+              <Button
+                variant="outline"
+                className="w-full"
+                onClick={() => navigate(`/patients/${patient.id}`)}
+              >
+                View Patient
+              </Button>
             </div>
-            <Button
-              variant="outline"
-              size="sm"
-              className="w-full mt-2"
-              onClick={() => navigate(`/patients/${patient.id}`)}
-            >
-              View Patient
-            </Button>
           </CardContent>
         </Card>
 
         {/* Doctor Information */}
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <IconStethoscope className="h-5 w-5 text-green-500" />
-              Doctor
-            </CardTitle>
+            <div className="flex items-center gap-3">
+              <div className="h-10 w-10 rounded-full bg-green-500 flex items-center justify-center">
+                <IconStethoscope className="h-5 w-5 text-white" />
+              </div>
+              <div>
+                <CardTitle>Doctor Information</CardTitle>
+                <CardDescription>Assigned medical professional</CardDescription>
+              </div>
+            </div>
           </CardHeader>
-          <CardContent className="space-y-3">
-            <div>
-              <p className="font-semibold text-lg">
-                Dr. {doctor.first_name} {doctor.last_name}
-              </p>
-              <Badge variant="secondary" className="mt-1">
-                {doctor.specialisation}
-              </Badge>
-            </div>
-            <div className="space-y-2 text-sm">
-              <div className="flex items-center gap-2">
-                <IconMail className="h-4 w-4 text-muted-foreground" />
-                {doctor.email}
+          <CardContent>
+            <div className="space-y-4">
+              <div>
+                <p className="text-sm text-muted-foreground mb-1">Name</p>
+                <p className="font-semibold text-lg">
+                  Dr. {doctor.first_name} {doctor.last_name}
+                </p>
+                <Badge variant="secondary" className="mt-2">
+                  {doctor.specialisation}
+                </Badge>
               </div>
-              <div className="flex items-center gap-2">
-                <IconPhone className="h-4 w-4 text-muted-foreground" />
-                {doctor.phone}
+
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 text-sm">
+                  <IconMail className="h-4 w-4 text-muted-foreground" />
+                  <span>{doctor.email}</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm">
+                  <IconPhone className="h-4 w-4 text-muted-foreground" />
+                  <span>{doctor.phone}</span>
+                </div>
               </div>
+
+              <Button
+                variant="outline"
+                className="w-full"
+                onClick={() => navigate(`/doctors/${doctor.id}`)}
+              >
+                View Doctor
+              </Button>
             </div>
-            <Button
-              variant="outline"
-              size="sm"
-              className="w-full mt-2"
-              onClick={() => navigate(`/doctors/${doctor.id}`)}
-            >
-              View Doctor
-            </Button>
           </CardContent>
         </Card>
       </div>

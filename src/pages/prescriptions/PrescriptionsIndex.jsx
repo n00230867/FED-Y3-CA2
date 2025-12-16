@@ -107,13 +107,24 @@ export default function PrescriptionsIndex() {
           <CardDescription>Quick statistics about prescriptions</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex items-center gap-3 p-4 rounded-lg bg-orange-50 dark:bg-orange-950/30">
-            <div className="h-12 w-12 rounded-full bg-orange-500 flex items-center justify-center">
-              <IconPill className="h-6 w-6 text-white" />
+          <div className="grid gap-4 md:grid-cols-2">
+            <div className="flex items-center gap-3 p-4 rounded-lg bg-orange-50 dark:bg-orange-950/30">
+              <div className="h-12 w-12 rounded-full bg-orange-500 flex items-center justify-center">
+                <IconPill className="h-6 w-6 text-white" />
+              </div>
+              <div>
+                <p className="text-2xl font-bold">{prescriptions.length}</p>
+                <p className="text-sm text-muted-foreground">Total Prescriptions</p>
+              </div>
             </div>
-            <div>
-              <p className="text-2xl font-bold">{prescriptions.length}</p>
-              <p className="text-sm text-muted-foreground">Total Prescriptions</p>
+            <div className="flex items-center gap-3 p-4 rounded-lg bg-blue-50 dark:bg-blue-950/30">
+              <div className="h-12 w-12 rounded-full bg-blue-500 flex items-center justify-center">
+                <IconPill className="h-6 w-6 text-white" />
+              </div>
+              <div>
+                <p className="text-2xl font-bold">{new Set(prescriptions.map(p => p.medication)).size}</p>
+                <p className="text-sm text-muted-foreground">Unique Medications</p>
+              </div>
             </div>
           </div>
         </CardContent>

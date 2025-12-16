@@ -160,105 +160,130 @@ export default function PrescriptionsShow() {
         {/* Patient Information */}
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <IconUser className="h-5 w-5 text-blue-500" />
-              Patient
-            </CardTitle>
+            <div className="flex items-center gap-3">
+              <div className="h-10 w-10 rounded-full bg-blue-500 flex items-center justify-center">
+                <IconUser className="h-5 w-5 text-white" />
+              </div>
+              <div>
+                <CardTitle>Patient Information</CardTitle>
+                <CardDescription>Associated patient details</CardDescription>
+              </div>
+            </div>
           </CardHeader>
-          <CardContent className="space-y-3">
-            <div>
-              <p className="font-semibold text-lg">
-                {patient.first_name} {patient.last_name}
-              </p>
-              <p className="text-sm text-muted-foreground">ID: {patient.id}</p>
-            </div>
-            <div className="space-y-2 text-sm">
-              <div className="flex items-center gap-2">
-                <IconMail className="h-4 w-4 text-muted-foreground" />
-                {patient.email}
+          <CardContent>
+            <div className="space-y-4">
+              <div>
+                <p className="text-sm text-muted-foreground mb-1">Name</p>
+                <p className="font-semibold text-lg">
+                  {patient.first_name} {patient.last_name}
+                </p>
               </div>
-              <div className="flex items-center gap-2">
-                <IconPhone className="h-4 w-4 text-muted-foreground" />
-                {patient.phone}
+
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 text-sm">
+                  <IconMail className="h-4 w-4 text-muted-foreground" />
+                  <span>{patient.email}</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm">
+                  <IconPhone className="h-4 w-4 text-muted-foreground" />
+                  <span>{patient.phone}</span>
+                </div>
               </div>
+
+              <Button
+                variant="outline"
+                className="w-full"
+                onClick={() => navigate(`/patients/${patient.id}`)}
+              >
+                View Patient
+              </Button>
             </div>
-            <Button
-              variant="outline"
-              size="sm"
-              className="w-full mt-2"
-              onClick={() => navigate(`/patients/${patient.id}`)}
-            >
-              View Patient
-            </Button>
           </CardContent>
         </Card>
 
         {/* Doctor Information */}
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <IconStethoscope className="h-5 w-5 text-green-500" />
-              Doctor
-            </CardTitle>
+            <div className="flex items-center gap-3">
+              <div className="h-10 w-10 rounded-full bg-green-500 flex items-center justify-center">
+                <IconStethoscope className="h-5 w-5 text-white" />
+              </div>
+              <div>
+                <CardTitle>Doctor Information</CardTitle>
+                <CardDescription>Prescribing physician</CardDescription>
+              </div>
+            </div>
           </CardHeader>
-          <CardContent className="space-y-3">
-            <div>
-              <p className="font-semibold text-lg">
-                Dr. {doctor.first_name} {doctor.last_name}
-              </p>
-              <Badge variant="secondary" className="mt-1">
-                {doctor.specialisation}
-              </Badge>
-            </div>
-            <div className="space-y-2 text-sm">
-              <div className="flex items-center gap-2">
-                <IconMail className="h-4 w-4 text-muted-foreground" />
-                {doctor.email}
+          <CardContent>
+            <div className="space-y-4">
+              <div>
+                <p className="text-sm text-muted-foreground mb-1">Name</p>
+                <p className="font-semibold text-lg">
+                  Dr. {doctor.first_name} {doctor.last_name}
+                </p>
+                <Badge variant="secondary" className="mt-2">
+                  {doctor.specialisation}
+                </Badge>
               </div>
-              <div className="flex items-center gap-2">
-                <IconPhone className="h-4 w-4 text-muted-foreground" />
-                {doctor.phone}
+
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 text-sm">
+                  <IconMail className="h-4 w-4 text-muted-foreground" />
+                  <span>{doctor.email}</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm">
+                  <IconPhone className="h-4 w-4 text-muted-foreground" />
+                  <span>{doctor.phone}</span>
+                </div>
               </div>
+
+              <Button
+                variant="outline"
+                className="w-full"
+                onClick={() => navigate(`/doctors/${doctor.id}`)}
+              >
+                View Doctor
+              </Button>
             </div>
-            <Button
-              variant="outline"
-              size="sm"
-              className="w-full mt-2"
-              onClick={() => navigate(`/doctors/${doctor.id}`)}
-            >
-              View Doctor
-            </Button>
           </CardContent>
         </Card>
 
         {/* Diagnosis Information */}
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <IconClipboardList className="h-5 w-5 text-red-500" />
-              Diagnosis
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            <div>
-              <p className="font-semibold text-lg">{diagnosis.condition}</p>
-              <p className="text-sm text-muted-foreground">ID: {diagnosis.id}</p>
-            </div>
-            <div className="text-sm">
-              <div className="flex items-center gap-2">
-                <IconCalendar className="h-4 w-4 text-muted-foreground" />
-                <span className="text-muted-foreground">Diagnosed on</span>
+            <div className="flex items-center gap-3">
+              <div className="h-10 w-10 rounded-full bg-red-500 flex items-center justify-center">
+                <IconClipboardList className="h-5 w-5 text-white" />
               </div>
-              <p className="font-medium mt-1">{formatDate(diagnosis.diagnosis_date)}</p>
+              <div>
+                <CardTitle>Diagnosis Information</CardTitle>
+                <CardDescription>Related medical condition</CardDescription>
+              </div>
             </div>
-            <Button
-              variant="outline"
-              size="sm"
-              className="w-full mt-2"
-              onClick={() => navigate(`/diagnoses/${diagnosis.id}`)}
-            >
-              View Diagnosis
-            </Button>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div>
+                <p className="text-sm text-muted-foreground mb-1">Condition</p>
+                <p className="font-semibold text-lg">{diagnosis.condition}</p>
+              </div>
+
+              <div>
+                <p className="text-sm text-muted-foreground mb-1">Diagnosis Date</p>
+                <div className="flex items-center gap-2">
+                  <IconCalendar className="h-4 w-4 text-muted-foreground" />
+                  <span className="font-medium">{formatDate(diagnosis.diagnosis_date)}</span>
+                </div>
+              </div>
+
+              <Button
+                variant="outline"
+                className="w-full"
+                onClick={() => navigate(`/diagnoses/${diagnosis.id}`)}
+              >
+                View Diagnosis
+              </Button>
+            </div>
           </CardContent>
         </Card>
       </div>

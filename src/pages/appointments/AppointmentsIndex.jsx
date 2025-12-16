@@ -102,13 +102,24 @@ export default function AppointmentsIndex() {
           <CardDescription>Quick statistics about appointments</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex items-center gap-3 p-4 rounded-lg bg-purple-50 dark:bg-purple-950/30">
-            <div className="h-12 w-12 rounded-full bg-purple-500 flex items-center justify-center">
-              <IconCalendar className="h-6 w-6 text-white" />
+          <div className="grid gap-4 md:grid-cols-2">
+            <div className="flex items-center gap-3 p-4 rounded-lg bg-purple-50 dark:bg-purple-950/30">
+              <div className="h-12 w-12 rounded-full bg-purple-500 flex items-center justify-center">
+                <IconCalendar className="h-6 w-6 text-white" />
+              </div>
+              <div>
+                <p className="text-2xl font-bold">{appointments.length}</p>
+                <p className="text-sm text-muted-foreground">Total Appointments</p>
+              </div>
             </div>
-            <div>
-              <p className="text-2xl font-bold">{appointments.length}</p>
-              <p className="text-sm text-muted-foreground">Total Appointments</p>
+            <div className="flex items-center gap-3 p-4 rounded-lg bg-green-50 dark:bg-green-950/30">
+              <div className="h-12 w-12 rounded-full bg-green-500 flex items-center justify-center">
+                <IconCalendar className="h-6 w-6 text-white" />
+              </div>
+              <div>
+                <p className="text-2xl font-bold">{new Set(appointments.map(a => a.patient_id)).size}</p>
+                <p className="text-sm text-muted-foreground">Unique Patients</p>
+              </div>
             </div>
           </div>
         </CardContent>
