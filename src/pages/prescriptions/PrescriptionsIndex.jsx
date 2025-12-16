@@ -65,11 +65,10 @@ export default function PrescriptionsIndex() {
   return (
     <>
       <div className="flex items-center justify-between mb-4">
-        <h1 className="text-2xl font-bold">Prescriptions</h1>
 
         <div className="flex gap-2">
           <Button asChild variant="outline">
-            <Link to="/prescriptions/create">Quick Create</Link>
+            <Link to="/prescriptions/create">Create New Prescription</Link>
           </Button>
         </div>
       </div>

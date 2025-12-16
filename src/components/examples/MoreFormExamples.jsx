@@ -39,25 +39,25 @@ import { ChevronDownIcon } from "lucide-react";
 
 export default function MoreFormExamples() {
   const [dobWindowOpen, setDobWindowOpen] = useState(false);
-  const [performers, setPerformers] = useState([]);
+  const [doctors, setDoctors] = useState([]);
 
   useEffect(() => {
-    const fetchPerformers = async () => {
+    const fetchDoctors = async () => {
       const options = {
         method: "GET",
-        url: "/performers",
+        url: "/doctors",
       };
 
       try {
         let response = await axios.request(options);
         console.log(response.data);
-        setPerformers(response.data);
+        setDoctors(response.data);
       } catch (err) {
         console.log(err);
       }
     };
 
-    fetchPerformers();
+    fetchDoctors();
   }, []);
 
   const formSchema = z.object({
@@ -69,7 +69,7 @@ export default function MoreFormExamples() {
       "Customer Support",
     ]),
     dob: z.date("Date of Birth is required"),
-    performer: z.string().min(1, "Performer is required"),
+    doctor: z.string().min(1, "Doctor is required"),
   });
 
   const form = useForm({
@@ -77,7 +77,7 @@ export default function MoreFormExamples() {
     defaultValues: {
       department: "",
       dob: "",
-      performer: "",
+      doctor: "",
     },
     mode: "onChange",
   });
@@ -88,7 +88,7 @@ export default function MoreFormExamples() {
     let formattedData = {
       ...data,
       dob: data.dob.toISOString().split("T")[0],
-      performer_id: data.performer,
+      doctor_id: data.doctor,
     };
     console.log("Formatted Data:");
     console.log(formattedData);
@@ -134,28 +134,28 @@ export default function MoreFormExamples() {
             />
 
             <Controller
-              name="performer"
+              name="doctor"
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel>Select Performer (API data)</FieldLabel>
+                  <FieldLabel>Select Doctor (API data)</FieldLabel>
                   <Select
                     name={field.name}
                     onValueChange={field.onChange}
                     value={field.value}
                   >
                     <SelectTrigger aria-invalid={fieldState.invalid}>
-                      <SelectValue placeholder="Choose performer" />
+                      <SelectValue placeholder="Choose doctor" />
                     </SelectTrigger>
                     <SelectContent>
-                      {performers.map((performer) => (
-                        <SelectItem key={performer.id} value={performer.id.toString()}>
-                          {performer.title}
+                      {doctors.map((doctor) => (
+                        <SelectItem key={doctor.id} value={doctor.id.toString()}>
+                          {doctor.name}
                         </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
-                  <FieldDescription>Select your performer.</FieldDescription>
+                  <FieldDescription>Select a doctor.</FieldDescription>
                 </Field>
               )}
             />
