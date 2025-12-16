@@ -50,14 +50,15 @@ export default function PrescriptionsEdit() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [prescriptionRes, patientsRes, doctorsRes, diagnosesRes] = await Promise.all([
-          axios.get(`/prescriptions/${id}`, {
-            headers: { Authorization: `Bearer ${token}` },
-          }),
-          axios.get("/patients"),
-          axios.get("/doctors"),
-          axios.get("/diagnoses"),
-        ]);
+        const [prescriptionRes, patientsRes, doctorsRes, diagnosesRes] =
+          await Promise.all([
+            axios.get(`/prescriptions/${id}`, {
+              headers: { Authorization: `Bearer ${token}` },
+            }),
+            axios.get("/patients"),
+            axios.get("/doctors"),
+            axios.get("/diagnoses"),
+          ]);
 
         const p = prescriptionRes.data;
 
@@ -86,6 +87,20 @@ export default function PrescriptionsEdit() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Validation
+    if (!prescription.patient_id) {
+      toast.error("Please select a patient");
+      return;
+    }
+    if (!prescription.doctor_id) {
+      toast.error("Please select a doctor");
+      return;
+    }
+    if (!prescription.diagnosis_id) {
+      toast.error("Please select a diagnosis");
+      return;
+    }
+
     const updatedPrescription = {
       patient_id: parseInt(prescription.patient_id),
       doctor_id: parseInt(prescription.doctor_id),
@@ -98,9 +113,9 @@ export default function PrescriptionsEdit() {
 
     try {
       await axios.patch(`/prescriptions/${id}`, updatedPrescription, {
-        headers: { 
+        headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}` 
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -108,7 +123,10 @@ export default function PrescriptionsEdit() {
       navigate("/prescriptions");
     } catch (err) {
       console.error("UPDATE FAILED:", err.response?.data);
-      toast.error("Update failed: " + (err.response?.data?.message || JSON.stringify(err.response?.data)));
+      toast.error(
+        "Update failed: " +
+          (err.response?.data?.message || JSON.stringify(err.response?.data))
+      );
     }
   };
 
@@ -117,12 +135,13 @@ export default function PrescriptionsEdit() {
       <h1 className="text-2xl font-bold mb-4">Edit Prescription</h1>
 
       <form onSubmit={handleSubmit} className="space-y-4 max-w-md">
-
         <div>
           <Label>Patient</Label>
-          <Select 
-            value={prescription.patient_id} 
-            onValueChange={(value) => setPrescription({ ...prescription, patient_id: value })}
+          <Select
+            value={prescription.patient_id}
+            onValueChange={(value) =>
+              setPrescription({ ...prescription, patient_id: value })
+            }
             required
           >
             <SelectTrigger className="w-full">
@@ -140,9 +159,11 @@ export default function PrescriptionsEdit() {
 
         <div>
           <Label>Doctor</Label>
-          <Select 
-            value={prescription.doctor_id} 
-            onValueChange={(value) => setPrescription({ ...prescription, doctor_id: value })}
+          <Select
+            value={prescription.doctor_id}
+            onValueChange={(value) =>
+              setPrescription({ ...prescription, doctor_id: value })
+            }
             required
           >
             <SelectTrigger className="w-full">
@@ -160,9 +181,11 @@ export default function PrescriptionsEdit() {
 
         <div>
           <Label>Diagnosis</Label>
-          <Select 
-            value={prescription.diagnosis_id} 
-            onValueChange={(value) => setPrescription({ ...prescription, diagnosis_id: value })}
+          <Select
+            value={prescription.diagnosis_id}
+            onValueChange={(value) =>
+              setPrescription({ ...prescription, diagnosis_id: value })
+            }
             required
           >
             <SelectTrigger className="w-full">

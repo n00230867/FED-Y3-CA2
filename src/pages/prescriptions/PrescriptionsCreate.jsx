@@ -61,6 +61,20 @@ export default function PrescriptionsCreate() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Validation
+    if (!patient_id) {
+      toast.error("Please select a patient");
+      return;
+    }
+    if (!doctor_id) {
+      toast.error("Please select a doctor");
+      return;
+    }
+    if (!diagnosis_id) {
+      toast.error("Please select a diagnosis");
+      return;
+    }
+
     const formattedStartDate = normalizeDate(start_date);
     const formattedEndDate = normalizeDate(end_date);
 
@@ -95,7 +109,6 @@ export default function PrescriptionsCreate() {
       <h1 className="text-2xl font-bold mb-4">Create Prescription</h1>
 
       <form onSubmit={handleSubmit} className="space-y-4 max-w-md">
-
         <div>
           <Label>Patient</Label>
           <Select value={patient_id} onValueChange={setPatientId} required>
