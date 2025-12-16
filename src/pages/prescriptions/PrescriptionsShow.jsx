@@ -1,16 +1,28 @@
 import { useEffect, useState } from "react";
 import axios from "@/config/api";
-import { useParams } from "react-router";
+import { useParams, useNavigate } from "react-router";
 import { useAuth } from "@/hooks/useAuth";
-
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  IconPill,
+  IconUser,
+  IconStethoscope,
+  IconClipboardList,
+  IconCalendar,
+  IconArrowLeft,
+  IconEdit,
+  IconMail,
+  IconPhone,
+} from "@tabler/icons-react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 // Format date as dd/mm/yyyy
 function formatDate(timestamp) {
@@ -34,11 +46,14 @@ export default function PrescriptionsShow() {
   const [patient, setPatient] = useState(null);
   const [doctor, setDoctor] = useState(null);
   const [diagnosis, setDiagnosis] = useState(null);
+  const [loading, setLoading] = useState(true);
   const { id } = useParams();
   const { token } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPrescription = async () => {
+      setLoading(true);
       try {
         const response = await axios.get(`/prescriptions/${id}`, {
           headers: {
@@ -60,58 +75,193 @@ export default function PrescriptionsShow() {
         setDiagnosis(diagnosisRes.data);
       } catch (err) {
         console.error("ERROR FETCHING PRESCRIPTION:", err.response?.data);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchPrescription();
   }, [id, token]);
 
+  if (loading) {
+    return (
+      <div className="space-y-6">
+        <Skeleton className="h-48 w-full" />
+        <Skeleton className="h-64 w-full" />
+      </div>
+    );
+  }
+
   if (!prescription || !patient || !doctor || !diagnosis) {
-    return <p>Loading prescription...</p>;
+    return <p>Prescription not found</p>;
   }
 
   return (
-    <Card className="w-full max-w-md">
-      <CardHeader>
-        <CardTitle>Prescription #{prescription.id}</CardTitle>
-
-        <CardDescription>
-          {prescription.medication} - {prescription.dosage}
-        </CardDescription>
-      </CardHeader>
-
-      <CardContent className="space-y-4">
-        <div>
-          <h3 className="font-semibold text-lg mb-2">Patient Information</h3>
-          <p><strong>Name:</strong> {patient.first_name} {patient.last_name}</p>
-          <p><strong>Email:</strong> {patient.email}</p>
-          <p><strong>Phone:</strong> {patient.phone}</p>
+    <div className="space-y-6 max-w-6xl mx-auto">
+      {/* Header with Back Button */}
+      <div className="flex items-center gap-4">
+        <Button variant="outline" size="icon" onClick={() => navigate("/prescriptions")}>
+          <IconArrowLeft className="h-4 w-4" />
+        </Button>
+        <div className="flex-1">
+          <h1 className="text-3xl font-bold">Prescription Details</h1>
+          <p className="text-muted-foreground">View prescription and related information</p>
         </div>
+        <Button variant="outline" onClick={() => navigate(`/prescriptions/${id}/edit`)}>
+          <IconEdit className="h-4 w-4 mr-2" />
+          Edit
+        </Button>
+      </div>
 
-        <div>
-          <h3 className="font-semibold text-lg mb-2">Doctor Information</h3>
-          <p><strong>Name:</strong> Dr. {doctor.first_name} {doctor.last_name}</p>
-          <p><strong>Email:</strong> {doctor.email}</p>
-          <p><strong>Phone:</strong> {doctor.phone}</p>
-          <p><strong>Specialization:</strong> {doctor.specialization}</p>
-        </div>
+      {/* Prescription Information Card */}
+      <Card>
+        <CardHeader>
+          <div className="flex items-start justify-between">
+            <div className="flex items-center gap-4">
+              <div className="h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center">
+                <IconPill className="h-8 w-8 text-primary" />
+              </div>
+              <div>
+                <CardTitle className="text-2xl">
+                  {prescription.medication}
+                </CardTitle>
+                <CardDescription className="text-base mt-1">
+                  <Badge variant="secondary" className="mt-1">
+                    {prescription.dosage}
+                  </Badge>
+                </CardDescription>
+              </div>
+            </div>
+          </div>
+        </CardHeader>
 
-        <div>
-          <h3 className="font-semibold text-lg mb-2">Diagnosis</h3>
-          <p><strong>Condition:</strong> {diagnosis.condition}</p>
-          <p><strong>Diagnosis Date:</strong> {formatDate(diagnosis.diagnosis_date)}</p>
-        </div>
+        <CardContent>
+          <div className="grid gap-4 md:grid-cols-2">
+            <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/50">
+              <IconCalendar className="h-5 w-5 text-muted-foreground" />
+              <div>
+                <p className="text-sm text-muted-foreground">Start Date</p>
+                <p className="font-medium">{formatDate(prescription.start_date)}</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/50">
+              <IconCalendar className="h-5 w-5 text-muted-foreground" />
+              <div>
+                <p className="text-sm text-muted-foreground">End Date</p>
+                <p className="font-medium">{formatDate(prescription.end_date)}</p>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
-        <div>
-          <h3 className="font-semibold text-lg mb-2">Prescription Details</h3>
-          <p><strong>Medication:</strong> {prescription.medication}</p>
-          <p><strong>Dosage:</strong> {prescription.dosage}</p>
-          <p><strong>Start Date:</strong> {formatDate(prescription.start_date)}</p>
-          <p><strong>End Date:</strong> {formatDate(prescription.end_date)}</p>
-        </div>
-      </CardContent>
+      {/* Related Information Grid */}
+      <div className="grid gap-6 md:grid-cols-3">
+        {/* Patient Information */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <IconUser className="h-5 w-5 text-blue-500" />
+              Patient
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <div>
+              <p className="font-semibold text-lg">
+                {patient.first_name} {patient.last_name}
+              </p>
+              <p className="text-sm text-muted-foreground">ID: {patient.id}</p>
+            </div>
+            <div className="space-y-2 text-sm">
+              <div className="flex items-center gap-2">
+                <IconMail className="h-4 w-4 text-muted-foreground" />
+                {patient.email}
+              </div>
+              <div className="flex items-center gap-2">
+                <IconPhone className="h-4 w-4 text-muted-foreground" />
+                {patient.phone}
+              </div>
+            </div>
+            <Button
+              variant="outline"
+              size="sm"
+              className="w-full mt-2"
+              onClick={() => navigate(`/patients/${patient.id}`)}
+            >
+              View Patient
+            </Button>
+          </CardContent>
+        </Card>
 
-      <CardFooter></CardFooter>
-    </Card>
+        {/* Doctor Information */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <IconStethoscope className="h-5 w-5 text-green-500" />
+              Doctor
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <div>
+              <p className="font-semibold text-lg">
+                Dr. {doctor.first_name} {doctor.last_name}
+              </p>
+              <Badge variant="secondary" className="mt-1">
+                {doctor.specialisation}
+              </Badge>
+            </div>
+            <div className="space-y-2 text-sm">
+              <div className="flex items-center gap-2">
+                <IconMail className="h-4 w-4 text-muted-foreground" />
+                {doctor.email}
+              </div>
+              <div className="flex items-center gap-2">
+                <IconPhone className="h-4 w-4 text-muted-foreground" />
+                {doctor.phone}
+              </div>
+            </div>
+            <Button
+              variant="outline"
+              size="sm"
+              className="w-full mt-2"
+              onClick={() => navigate(`/doctors/${doctor.id}`)}
+            >
+              View Doctor
+            </Button>
+          </CardContent>
+        </Card>
+
+        {/* Diagnosis Information */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <IconClipboardList className="h-5 w-5 text-red-500" />
+              Diagnosis
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <div>
+              <p className="font-semibold text-lg">{diagnosis.condition}</p>
+              <p className="text-sm text-muted-foreground">ID: {diagnosis.id}</p>
+            </div>
+            <div className="text-sm">
+              <div className="flex items-center gap-2">
+                <IconCalendar className="h-4 w-4 text-muted-foreground" />
+                <span className="text-muted-foreground">Diagnosed on</span>
+              </div>
+              <p className="font-medium mt-1">{formatDate(diagnosis.diagnosis_date)}</p>
+            </div>
+            <Button
+              variant="outline"
+              size="sm"
+              className="w-full mt-2"
+              onClick={() => navigate(`/diagnoses/${diagnosis.id}`)}
+            >
+              View Diagnosis
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
   );
 }
