@@ -28,7 +28,7 @@ import {
   IconEdit,
 } from "@tabler/icons-react";
 
-// ✅ Convert timestamp → dd/mm/yyyy just like PatientsIndex
+// Convert timestamp → dd/mm/yyyy just like PatientsIndex
 function formatDate(timestamp) {
   if (!timestamp) return "";
 

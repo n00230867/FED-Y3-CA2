@@ -120,7 +120,7 @@ function normalizeDate(value) {
             />
             </div>
 
-            {/* ✅ CREATE BUTTON ADDED HERE */}
+            {/* CREATE BUTTON ADDED HERE */}
             <Button type="submit" className="mt-4">
             Create Patient
             </Button>
